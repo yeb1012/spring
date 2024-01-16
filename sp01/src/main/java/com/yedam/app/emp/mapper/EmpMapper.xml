@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yedam.app.emp.mapper.EmpMapper">
+	<!-- 전체조회 -->
+	<select id="selectEmpList" resultType="EmpVO">
+		SELECT employee_id,
+		last_name, email, hire_date, job_id, salary FROM
+		employees ORDER BY
+		employee_id
+	</select>
+
+	<!-- 단건조회: 한건만 나오게 꼭 처리해주기 아니면 튕겨버림 -->
+	<select id="selectEmpInfo" resultType="EmpVO"><!-- 매개변수 안의 파라미터 값을 샵괄호 안에 
+			게터세터 쓰기 때문에 정확하게 들고오기 -->
+		SELECT employee_id, last_name, email, hire_date, job_id, salary FROM
+		employees WHERE employee_id=#{employeeId} <!-- 마이바티스만 샵 사용 나머진 달러 사용함 주의하세요 -->
+	</select>
+	<!-- 마이바티스에서 샵과 달러 차이 샵은 preparestatement라고 생각하면 됨 ?효과 $는 statement라 생각하면 
+		됨 홀따옴표 다 빼버림 (달러는 연산자와 결합하거나 동적인 결과 생성할때 사용) column LIKE '%'||#{field}||'%' 
+		column LIKE '%${field}%' -->
+	<!-- 등록 -->
+	<insert id="insertEmpInfo" parameterType="EmpVO">
+		<selectKey keyProperty="employeeId" resultType="int"
+			order="BEFORE">SELECT NVL(MAX(employee_id),0)+1 FROM employees</selectKey> <!-- 컬럼도 하나 값도 하나 파라미터타입인 EmpVO안에 셀렉트키값이 담긴다 -->
+		INSERT INTO employees
+		(employee_id,
+		last_name,
+		email,
+		hire_date,
+		job_id,
+		salary)VALUES
+		(#{employeeId},
+		#{lastName},
+		#{email},
+		#{hireDate},
+		#{jobId},
+		#{salary})
+	</insert>
+	<!-- 수정: 전제조건, 전체데이터 전송 -->
+	<update id="updateEmpInfo" parameterType="EmpVO">
+	 UPDATE employees SET last_name=#{lastName}, 
+	 email = #{email}, 
+	 salary = #{salary} 
+	 WHERE employee_id = #{employeeId} 
+	</update>
+	
+	
+	<update id="updateEmpInfoDynamic" parameterType="EmpVO">
+      update employees set 
+      <choose><!-- choose가 위로 올라온 이유 아래 if에 쉼표가 있지 않나 choose절 없으면 미완성 sql문이 된다 -->
+         <when test="lastName != null and !lastName.equals('')">
+         last_name = #{lastName}
+         </when>
+         <otherwise>
+            last_name = 'Any'
+         </otherwise>
+      </choose>
+      
+      <if test="email != null"> 
+         ,email = #{email} <!-- 콤마가 앞에 붙은 나름의 이유가 있다  그 이유 각자 생각해서 콤마 잘 붙이기 -->
+      </if>
+      <if test="salary >= 0">
+         ,salary = #{salary}
+      </if>
+      <where><!-- WHERE을 대문자로 쓰니 인식이 안되더라 where소문자로 쓰기 주의하자 -->
+         <if test="employeeId >= 0">
+            employee_id = #{employeeId}
+         </if>
+      </where>
+   </update>
+	
+	
+	<!-- 매개변수 두개 -->
+	<update id="updateEmpSal">
+		UPDATE employees SET salary = salary * #{info.salary}
+		WHERE employee_id=#{eid}
+	</update>
+	<!-- 삭제 -->
+	<delete id="deleteEmpInfo" parameterType="int">
+		DELETE FROM employees
+		WHERE employee_id=#{eid}
+	</delete>
+</mapper>
