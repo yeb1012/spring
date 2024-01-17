@@ -13,5 +13,5 @@ public interface EmpService {
 	//수정
 		public Map<String, Object> updateEmpInfo(EmpVO empVO);
 	//삭제
-		public boolean delteEmpInfo(int empId);
+		public boolean deleteEmpInfo(int empId);
 }

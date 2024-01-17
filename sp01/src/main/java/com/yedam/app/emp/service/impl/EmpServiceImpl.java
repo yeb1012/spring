@@ -57,7 +57,7 @@ public class EmpServiceImpl implements EmpService {
 	}
 
 	@Override
-	public boolean delteEmpInfo(int empId) {
+	public boolean deleteEmpInfo(int empId) {
 		int result = empMapper.deleteEmpInfo(empId);
 		return result == 1 ? true : false;
 	}

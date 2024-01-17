@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+       <tiles-definitions>
+       	<definition name="mainTemplate" template="/WEB-INF/views/layout/default_layout.jsp"> <!--  name이 중요한 이유 반환되는 데이터와 일치하는지 계속 확인할거임 어떤 경우에도 controller가 반환할거 같지 않은 이름을 사용해라-->
+       		<put-attribute name="header" value="/WEB-INF/views/layout/default_header.jsp"></put-attribute>
+       		<put-attribute name="footer" value="/WEB-INF/views/layout/default_footer.jsp"></put-attribute>
+       	</definition>
+       	
+       	<definition name="*/*" extends="mainTemplate"> <!-- 위엔 공통으로 들어갈 사항(header,footer)정의 여긴 별도로 사용될 content부분 정의 --> <!-- extends는 위에 정의된 것을 상속받아 사용될때 사용하는거 -->
+       	<put-attribute name="content" value="/WEB-INF/views/{1}/{2}.jsp"></put-attribute>
+       	</definition> 
+       	<definition name="home" extends="mainTemplate"> <!-- 위엔 공통으로 들어갈 사항(header,footer)정의 여긴 별도로 사용될 content부분 정의 --> <!-- extends는 위에 정의된 것을 상속받아 사용될때 사용하는거 -->
+       	<put-attribute name="content" value="/WEB-INF/views/home.jsp"></put-attribute>
+       	</definition> 
+       </tiles-definitions>
