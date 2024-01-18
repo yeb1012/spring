@@ -15,29 +15,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.yedam.app.board.mapper.BoardMapper;
+import com.yedam.app.board.service.BoardVO;
 import com.yedam.app.emp.mapper.EmpMapper;
 import com.yedam.app.emp.service.EmpVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/spring/*-context.xml")
-public class MapperTest {
+public class MapperTest2 {
 	
 	@Autowired
-	EmpMapper empMapper;
+	BoardMapper boardMapper;
 	
 	//전체조회
-	//@Test
+	@Test
 	public void selectAll() {
-		List<EmpVO> list = empMapper.selectEmpList();
+		List<BoardVO> list = boardMapper.selectBoardList();
 		assertTrue(!list.isEmpty());
 	}
 	
 	//단건조회
 	//@Test
 	public void selectInfo() {
-		EmpVO empVO = new EmpVO();
+		BoardVO empVO = new EmpVO();
 		empVO.setEmployeeId(100);
-		EmpVO findVO = empMapper.selectEmpInfo(empVO);
+		BoardVO findVO = boardMapper.selectBoard(empVO);
 		assertEquals(findVO.getLastName(), "King");
 	}
 	
@@ -51,7 +53,7 @@ public class MapperTest {
 		empVO.setJobId("IT_PROG");
 		empVO.setSalary(10000);
 		
-		int result = empMapper.insertEmpInfo(empVO);
+		int result = boardMapper.insertEmpInfo(empVO);
 		assertNotEquals(result, 0);
 		//assertNotEquals(empVO.getEmployeeId(), 0);
 	}
@@ -61,26 +63,17 @@ public class MapperTest {
 	public void updateInfo() {
 		EmpVO empVO = new EmpVO();
 		empVO.setEmployeeId(207);
-		EmpVO findVO = empMapper.selectEmpInfo(empVO);
+		EmpVO findVO = boardMapper.selectBoard(empVO);
 		findVO.setLastName("Kang");
-		int result = empMapper.updateEmpInfo(findVO);
+		int result = boardMapper.updateEmpInfo(findVO);
 		assertNotEquals(result, 0);
 	}
 	
-	//수정
-	@Test
-	public void updateInfoDynamic() {
-		EmpVO empVO = new EmpVO();
-		empVO.setEmployeeId(207);
-		empVO.setSalary(5200);
-		int result = empMapper.updateEmpInfoDynamic(empVO);
-		assertNotEquals(result, 0);
-	}
 	
 	//삭제
 	//@Test
 	public void deleteInfo() {
-		int result = empMapper.deleteEmpInfo(207);
+		int result = boardMapper.deleteEmpInfo(207);
 		assertNotEquals(result, 0);
 	}
 	

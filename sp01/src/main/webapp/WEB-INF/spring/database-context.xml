@@ -28,7 +28,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation" value="classpath:mybatis-config.xml"/>
 			<!-- mapperLocation 얘가 있으면 확인이 한번 더 필요하다 여기 부분 설정 중요한데 공부 다시 해보자-->
-			
+		<!-- 	<property name="mapperLocations" value="*classpath:mapper/*.xml"></property> -->
 	</bean>
 
 	<!-- mapper scan -->
