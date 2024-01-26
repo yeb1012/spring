@@ -10,7 +10,10 @@
       <ul class="nav nav-pills">
         <li class="nav-item"><a href="${pageContext.request.contextPath }/" class="nav-link active" aria-current="page">Home</a></li>
         <li class="nav-item"><a href="${pageContext.request.contextPath }/empList" class="nav-link">전체사원조회</a></li>
-        <li class="nav-item"><a href="${pageContext.request.contextPath }/empInsert" class="nav-link">사원정보등록</a></li>  <!-- ${pageContext.request.contextPath }가 있고 /가 절대경로임 -->
+        <li class="nav-item"><a href="${pageContext.request.contextPath }/empInsert" class="nav-link">사원정보등록</a></li> 
+        <li class="nav-item"><a href="${pageContext.request.contextPath }/boardList" class="nav-link">게시판조회</a></li>  
+        <li class="nav-item"><a href="${pageContext.request.contextPath }/boardInsert" class="nav-link">게시글등록</a></li>  
+       
         <li class="nav-item"><a href="#" class="nav-link">☆</a></li>
         <li class="nav-item"><a href="#" class="nav-link">About</a></li>
       </ul>

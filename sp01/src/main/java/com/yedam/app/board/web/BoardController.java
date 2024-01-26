@@ -9,6 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.board.service.BoardService;
 import com.yedam.app.board.service.BoardVO;
@@ -46,14 +49,21 @@ public class BoardController {
 		}
 	//수정 - 페이지 : URI - boardUpdate / RETURN -board/boardUpdate
 		@GetMapping("boardUpdate")
-		public String UpdateBoardForm() {
+		public String UpdateBoardForm(BoardVO boardVO, Model model) {
+			BoardVO findVO = boardService.getBoardInfo(boardVO);
+			model.addAttribute("boardInfo", findVO);
 			return "board/boardUpdate";
 		}
 	//수정 - 처리 : URI - boardUpdate / PARAMETER - BoardVO / RETURN - 수정결과 데이터 (Map)
-		@PutMapping("boardUpdate")
-		public Map<String, Object> getBoardUpdate(BoardVO boardVO) {
+		@PostMapping("boardUpdate")
+		@ResponseBody
+		public Map<String, Object> getBoardUpdate( @RequestBody BoardVO boardVO) {
 			return boardService.updateBoardInfo(boardVO);
 		}
-		
-		
+	//삭제	
+		 @GetMapping("boardDelete")
+		 public String boardDelete(@RequestParam Integer bno) { //requestParam을 쓰느 순간 필수값이 됨 저 부분이 없이 값을 넘기면 오류가 됨
+			 boardService.deleteBoardInfo(bno);
+			 return "redirect:boardList";
+		 }
 }
